@@ -1,8 +1,8 @@
-define (["../../graf/public_html/Test/TestSuite",
-    "../../graf/public_html/GraphMap/GraphMap.js",
-    "../../graf/public_html/Graph/Graph.js",
-    "../../graf/public_html/Graph/Node.js",
-	"../../graf/public_html/UI/DragHandler"],
+define (["../graf/public_html/Test/TestSuite",
+    "../graf/public_html/GraphMap/GraphMap.js",
+    "../graf/public_html/Graph/Graph.js",
+    "../graf/public_html/Graph/Node.js",
+	"../graf/public_html/UI/DragHandler"],
 function (TestSuite, GraphMap, Graph, Node, DragHandler) {
 
 let SPEED_FACTOR = 6.66;
@@ -144,7 +144,7 @@ function initialize_drag_handler() {
 }
 
 function create_graph_map () {
-	graph_map = new GraphMap (graph);
+	graph_map = new GraphMap (graph, null, true);
 	for (var x = 0; x <= grid_size; x++) {
 		for (var y = 0; y <= grid_size; y++) {
 			var id = "x" + x + "y" + y;

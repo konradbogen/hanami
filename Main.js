@@ -1,5 +1,5 @@
 require (
-    ["../../graf/public_html/Browser/Tab.js",
+    ["../graf/public_html/Browser/Tab.js",
     "./Hanami.js"], 
 function (Tab, Hanami) {
 
@@ -16,7 +16,8 @@ const COLOR_SCHEMES = [
 	["BITTE GLAUB DEN STERNEN", " rgb(255, 255, 255)", "rgb(21, 21, 16)", "rgb(0, 0, 0)"],
 	["WASABI", " rgb(212, 255, 170)", "rgb(1, 181, 155)", "rgb(80, 255, 0)"],
 	["CHRISTMAS BOARDGAMES NUSSKNACKER", " rgb(245, 18, 18)", "rgb(255, 182, 44)", "rgb(24, 54, 10)"],
-	["HANAMI", "rgb(255, 202, 244)", "rgb(107, 42, 42)", "rgb(122, 230, 255)"]
+	["HANAMI", "rgb(255, 202, 244)", "rgb(107, 42, 42)", "rgb(122, 230, 255)"],
+    ["STREETWORKERS", "rgb(0, 190, 234", "rgb(255, 209, 250)", "rgb(230, 233, 255)"]
 ]
 var stage;
 var tab; 
