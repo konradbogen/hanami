@@ -164,9 +164,9 @@ function update_particles () {
 			}
 			var sum_vector = graph_map.vector_matrix.get_sum_vector_at_position (position, 2);
 			if (sum_vector) {
-			var delta_x = sum_vector [0]  * (SPEED_FACTOR/100);
-			var delta_y = (sum_vector [1] + CONSTANT_DOWN_SUMMAND) * (SPEED_FACTOR/100)
-			set_particle_position (particle, position [0] + delta_x, position[1] + delta_y);
+				var delta_x = sum_vector [0]  * (SPEED_FACTOR/100);
+				var delta_y = (sum_vector [1] + CONSTANT_DOWN_SUMMAND) * (SPEED_FACTOR/100)
+				set_particle_position (particle, position [0] + delta_x, position[1] + delta_y);
 			}
 			})
 }

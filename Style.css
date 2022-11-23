@@ -5,6 +5,9 @@
     --clip-path-circle: circle(50% at center);
 }
 
+body { 
+}
+
 svg {
     background-color: var(--color-secondary);
     height: 100%;

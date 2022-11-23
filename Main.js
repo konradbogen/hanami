@@ -29,6 +29,7 @@ $(document).ready(function () {
     Hanami (stage);
 });
 
+
 function init_levels() {
     levels = [Hanami];
 }
