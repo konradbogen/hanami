@@ -2,23 +2,30 @@ define (["../graf/public_html/Test/TestSuite",
     "../graf/public_html/GraphMap/GraphMap.js",
     "../graf/public_html/Graph/Graph.js",
     "../graf/public_html/Graph/Node.js",
-	"../graf/public_html/UI/DragHandler"],
-function (TestSuite, GraphMap, Graph, Node, DragHandler) {
+	"../graf/public_html/UI/DragHandler.js",
+	"../graf/public_html/Audio/Auditory.js"],
+function (TestSuite, GraphMap, Graph, Node, DragHandler, Auditory) {
 
 let SPEED_FACTOR = 6.66;
 let CONSTANT_DOWN_SUMMAND = 1;
 
-const WIDTH = 100
-const OFFSET = 5
+const WIDTH          = 100
+const OFFSET         = 5
 
-var grid_size = 5;
-var sector_length = (WIDTH - 2*OFFSET) / grid_size;
+var grid_size        = 5;
+var sector_length    = (WIDTH - 2*OFFSET) / grid_size;
 var hanami_testsuite = new TestSuite ();
 var grid_size;
 var graph;
 var graph_map;
-var graph_opacity = 1;
-var particles = [];
+var graph_opacity    = 1;
+var particles        = [];
+var global_energy    = 0;
+
+var auditory 		 = new Auditory ();
+var is_playing 		 = false
+
+load_auditory ()
 
 hanami_testsuite.add_test (test_graph_initialized);
 hanami_testsuite.add_test (test_create_graph);
@@ -28,6 +35,13 @@ hanami_testsuite.add_test (test_draw_lines);
 hanami_testsuite.add_test (test_move_node);
 hanami_testsuite.add_test (test_spawn_particle);
 hanami_testsuite.add_test (test_update_particles);
+
+
+function load_auditory () { 
+	url_list = new Map ()
+	url_list ["1"] = "../audio/Autobahn/reals/AUTOBAHN_LONG.mp3"
+	auditory.load_all_buffers (url_list)
+}
 
 function add_particles () {
 	set_intervals();
@@ -90,6 +104,7 @@ function draw_lines () {
 			line.setAttribute ("stroke-width", 0.8);
 			line.setAttribute ("stroke-opacity", graph_opacity);
 			line.setAttribute ("id", edge.id);
+			line.setAttribute ("class", "edge");
 			svg.prepend (line);
 	});
 	graph_map.callback_edge_position_changed = function (edge) {
@@ -130,6 +145,10 @@ function initialize_drag_handler() {
 	var drag = new DragHandler("circle");
 	drag.callback_drag = function (id, offset_x, offset_y) {
 		graph_map.move_node (id, {x: offset_x * 100, y: offset_y * 100});
+		if (is_playing == false) { 
+			auditory.play ("1")
+			is_playing = true;
+		}
 	};
 	drag.callback_mouse_over = function (id) {
 		var circle = document.getElementById (id);
@@ -157,18 +176,32 @@ function create_graph_map () {
 }
 
 function update_particles () {
-	particles.forEach (particle => {
-			var position = get_particle_position (particle);
-			if (position.y > 100) {
-			particle.remove ();
+    global_energy = 0;
+    particles.forEach (particle => {
+        var position = get_particle_position (particle);
+        if (position.y > 100) {
+            particle.remove ();
+        }
+        var sum_vector = graph_map.vector_matrix.get_sum_vector_at_position (position, 2);
+        if (sum_vector) {
+            var delta_x = sum_vector [0]  * (SPEED_FACTOR/100);
+            var delta_y = (sum_vector [1] + CONSTANT_DOWN_SUMMAND) * (SPEED_FACTOR/100)
+            energy = delta_x + delta_y
+			if (energy>global_energy) { 
+				global_energy = energy
 			}
-			var sum_vector = graph_map.vector_matrix.get_sum_vector_at_position (position, 2);
-			if (sum_vector) {
-				var delta_x = sum_vector [0]  * (SPEED_FACTOR/100);
-				var delta_y = (sum_vector [1] + CONSTANT_DOWN_SUMMAND) * (SPEED_FACTOR/100)
-				set_particle_position (particle, position [0] + delta_x, position[1] + delta_y);
-			}
-			})
+            set_particle_position (particle, position [0] + delta_x, position[1] + delta_y);
+        }
+    })
+	normalize_energy ();
+    console.log (global_energy)
+}
+
+function normalize_energy () { 
+	if (global_energy < 0) {
+		global_energy = global_energy * (-1)
+	}
+	auditory.cutoff = global_energy
 }
 
 function get_particle_position(particle) {
@@ -179,6 +212,7 @@ function get_particle_position(particle) {
 
 function spawn_particle () {
 	var particle = document.createElementNS ("http://www.w3.org/2000/svg", "circle");
+	particle.setAttribute ("class", "circle")
 	particle.setAttribute ("r", "0.5");
 	particle.setAttribute ("fill", "var(--color_tertiary)");
 	particle.setAttribute ("stroke", "var(--color-primary)")

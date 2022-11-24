@@ -18,6 +18,32 @@ svg {
     clip-path: var(--clip-path-circle)
 }
 
+#movie { 
+    position: absolute;
+    clip-path: var(--clip-path-circle);
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    margin: auto;
+    display: inline-block;
+    opacity: 0%;
+}
+
+.edge { 
+    z-index: 2;
+    position: relative;
+}
+
+.node { 
+    z-index: 2;
+    position: relative;
+}
+
+.circle { 
+    z-index: 2;
+    position: relative;
+}
+
 #camera_button {
     opacity: 30%;
     padding: 0;

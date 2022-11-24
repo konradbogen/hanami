@@ -17,8 +17,10 @@ const COLOR_SCHEMES = [
 	["WASABI", " rgb(212, 255, 170)", "rgb(1, 181, 155)", "rgb(80, 255, 0)"],
 	["CHRISTMAS BOARDGAMES NUSSKNACKER", " rgb(245, 18, 18)", "rgb(255, 182, 44)", "rgb(24, 54, 10)"],
 	["HANAMI", "rgb(255, 202, 244)", "rgb(107, 42, 42)", "rgb(122, 230, 255)"],
-    ["STREETWORKERS", "rgb(0, 190, 234", "rgb(255, 209, 250)", "rgb(230, 233, 255)"]
+    ["STREETWORKERS", "rgb(0, 190, 234", "rgb(255, 209, 250)", "rgb(230, 233, 255)"],
+    ["CYBERPUNK", "rgb(249, 255, 64)", "rgb(24, 74, 85)", "rgb(55, 25, 52)"]
 ]
+
 var stage;
 var tab; 
 //
@@ -39,7 +41,7 @@ function grab_svg() {
 }
 
 function handle_url () {
-    tab = new Tab("Hanami");
+    tab = new Tab("HANAMI hoodies by konradbogen");
     tab.url_parameter_ids.push (COLOR_URL_TAG)
     tab.url_parameter_ids.push(STAGE_URL_TAG);
     handle_color_scheme ();
