@@ -22,6 +22,8 @@ var graph_opacity    = 1;
 var particles        = [];
 var global_energy    = 0;
 
+var global_mute 	 = 0;
+
 var auditory 		 = new Auditory ();
 var is_playing 		 = false
 
@@ -39,7 +41,7 @@ hanami_testsuite.add_test (test_update_particles);
 
 function load_auditory () { 
 	url_list = new Map ()
-	url_list ["1"] = "../audio/Autobahn/reals/AUTOBAHN_LONG.mp3"
+	url_list ["1"] = "audio.mp3"
 	auditory.load_all_buffers (url_list)
 }
 
@@ -100,7 +102,6 @@ function draw_lines () {
 			line.setAttribute ("y1", positioned_node_a.y);
 			line.setAttribute ("x2", positioned_node_b.x);
 			line.setAttribute ("y2", positioned_node_b.y);
-			line.setAttribute ("stroke", "var(--color-tertiary)");
 			line.setAttribute ("stroke-width", 0.8);
 			line.setAttribute ("stroke-opacity", graph_opacity);
 			line.setAttribute ("id", edge.id);
@@ -145,7 +146,7 @@ function initialize_drag_handler() {
 	var drag = new DragHandler("circle");
 	drag.callback_drag = function (id, offset_x, offset_y) {
 		graph_map.move_node (id, {x: offset_x * 100, y: offset_y * 100});
-		if (is_playing == false) { 
+		if (is_playing == false && global_mute == 0) { 
 			auditory.play ("1")
 			is_playing = true;
 		}
@@ -194,7 +195,6 @@ function update_particles () {
         }
     })
 	normalize_energy ();
-    console.log (global_energy)
 }
 
 function normalize_energy () { 
@@ -308,7 +308,8 @@ function test_create_graph_map () {
 	return test;
 }
 
-return function play_hanami (_stage) {
+return function play_hanami (_stage, mute=0) {
+	global_mute = mute;
 	if (_stage == 0) {
 		invisible_graph ();
 		add_particles ();

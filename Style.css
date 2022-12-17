@@ -10,6 +10,7 @@ body {
 
 svg {
     background-color: var(--color-secondary);
+    transition: background-color 10s;
     height: 100%;
     width: auto;
     max-width: 100%;
@@ -32,6 +33,8 @@ svg {
 .edge { 
     z-index: 2;
     position: relative;
+    stroke: var(--color-tertiary);
+    transition: stroke 8s;
 }
 
 .node { 
@@ -59,12 +62,14 @@ svg {
 .node {
     stroke: white;
     fill: var(--color-primary);
+    transition: background-color 8s;
     stroke: var(--color-tertiary);
-
+    transition: fill 20s, stroke 20s;
 }
 
 body {
     text-align: center;
     background-color: var(--color-tertiary);
-    cursor: url("../love/Imagery/cursor.png") 10 10, auto;
+    transition: background-color 12s;
+    cursor: url("cursor.png") 10 10, auto;
 }

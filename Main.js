@@ -6,6 +6,7 @@ function (Tab, Hanami) {
 let CSS_COLOR_VARIABLES = ["--color-primary", "--color-secondary", "--color-tertiary"]
 const STAGE_URL_TAG = "s";
 const COLOR_URL_TAG = "c"
+const MUTE_URL_TAG = "c"
 const DEFAULT_HANAMI_STAGE = 3; 
 const COLOR_SCHEMES = [ 
 	["TOKYO CHEWING GUM", "rgb(251, 151, 218)", "rgb(34, 34, 34)", "rgb(255, 255, 255)"],
@@ -23,14 +24,43 @@ const COLOR_SCHEMES = [
 
 var stage;
 var tab; 
+
+var global_mute = false;
+
 //
 $(document).ready(function () {
     handle_url ();
     init_levels();
     grab_svg();
-    Hanami (stage);
+    Hanami (stage, global_mute);
+    document.addEventListener ("keydown", event => { 
+        index        = keycode_to_number (event.keycode);
+        color_scheme = COLOR_SCHEMES [index]
+        set_color_scheme (color_scheme);
+    })
 });
 
+function keycode_to_number (keycode) { 
+    if (keycode == "KeyA") { 
+        return 0;
+    }else if (keycode == "KeyS") {
+        return 1;
+    }else if (keycode == "KeyD") {
+        return 2;
+    }else if (keycode == "KeyF") { 
+        return 3;
+    }else if (keycode == "KeyG") { 
+        return 4;
+    }else if (keycode == "KeyH") {
+        return 5;
+    }else if (keycode == "KeyJ") {
+        return 6;
+    }else if (keycode == "KeyK") {
+        return 7;
+    }else if (keycode == "KeyL") {
+        return 8;
+    }
+}
 
 function init_levels() {
     levels = [Hanami];
@@ -44,6 +74,8 @@ function handle_url () {
     tab = new Tab("HANAMI hoodies by konradbogen");
     tab.url_parameter_ids.push (COLOR_URL_TAG)
     tab.url_parameter_ids.push(STAGE_URL_TAG);
+    tab.url_parameter_ids.push(MUTE_URL_TAG);
+    handle_mute_tag ();
     handle_color_scheme ();
     set_stage_from_url ();
 }
@@ -52,6 +84,13 @@ function handle_color_scheme () {
     var color_in_url = set_color_scheme_from_url ();
     if (color_in_url == false) {
         set_random_color_scheme ();
+    }
+}
+
+function handle_mute_tag () { 
+    var value = tab.url_parameters[MUTE_URL_TAG]
+    if (value == "1") {
+        global_mute = true;
     }
 }
 
