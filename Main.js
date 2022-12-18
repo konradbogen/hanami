@@ -22,6 +22,8 @@ const COLOR_SCHEMES = [
     ["CYBERPUNK", "rgb(249, 255, 64)", "rgb(24, 74, 85)", "rgb(55, 25, 52)"]
 ]
 
+var video;
+
 var stage;
 var tab; 
 
@@ -33,7 +35,12 @@ $(document).ready(function () {
     init_levels();
     grab_svg();
     Hanami (stage, global_mute);
+    video = document.getElementById ("video");
     document.addEventListener ("keydown", event => { 
+        if (parseInt (event.key) >= 1 & parseInt (event.key) <= 9) { 
+            number = parseInt (event.key);
+            video.src = "video/" + String (number) + ".mp4"
+        }
         index        = keycode_to_number (event.keycode);
         color_scheme = COLOR_SCHEMES [index]
         set_color_scheme (color_scheme);
@@ -71,7 +78,7 @@ function grab_svg() {
 }
 
 function handle_url () {
-    tab = new Tab("HANAMI hoodies by konradbogen");
+    tab = new Tab("hanami");
     tab.url_parameter_ids.push (COLOR_URL_TAG)
     tab.url_parameter_ids.push(STAGE_URL_TAG);
     tab.url_parameter_ids.push(MUTE_URL_TAG);

@@ -10,31 +10,35 @@ body {
 
 svg {
     background-color: var(--color-secondary);
-    transition: background-color 10s;
+    transition: background-color 5s;
     height: 100%;
     width: auto;
     max-width: 100%;
+    opacity: 60%;
     margin: auto;
     display: inline-block;
-    clip-path: var(--clip-path-circle)
 }
 
-#movie { 
+video { 
     position: absolute;
-    clip-path: var(--clip-path-circle);
-    height: 100%;
-    width: auto;
-    max-width: 100%;
+    min-height: 100%;
     margin: auto;
     display: inline-block;
-    opacity: 0%;
+    opacity: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#video_div {
+    clip-path: circle();
 }
 
 .edge { 
     z-index: 2;
     position: relative;
     stroke: var(--color-tertiary);
-    transition: stroke 8s;
+    transition: stroke 5s;
 }
 
 .node { 
@@ -45,6 +49,9 @@ svg {
 .circle { 
     z-index: 2;
     position: relative;
+    fill: var(--color-primary);
+    stroke: var(--color-primary);
+    transition: fill 5s, stroke 5s;
 }
 
 #camera_button {
@@ -60,16 +67,15 @@ svg {
 }
 
 .node {
-    stroke: white;
-    fill: var(--color-primary);
-    transition: background-color 8s;
+    fill: var(--color-tertiary);
     stroke: var(--color-tertiary);
-    transition: fill 20s, stroke 20s;
+    transition: fill 20s, stroke 5s;
+    z-index: 2;
 }
 
 body {
     text-align: center;
     background-color: var(--color-tertiary);
-    transition: background-color 12s;
+    transition: background-color 5s;
     cursor: url("cursor.png") 10 10, auto;
 }
